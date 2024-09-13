@@ -1,40 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LinkedList
+﻿namespace LinkedList
 {
+    /// <summary>
+    /// Keep on mind:
+    /// Important is working with references (property Next) to next Node
+    /// Also keep on mind to always update Next, head (if u need) or tail (if u need)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class LinkedList<T>
     {
-        private Node<T>? node = null;
+        private Node<T>? head;
+        private Node<T>? tail;
+        private int count = 0;
         //private List<Node<T>> nodes = [];
 
-        public Node<T> First { get; set; } = null!;
-        public Node<T>? Last { get; set; }
-
-        public Node<T> AddLast(Node<T> nodeToAddLast) 
+        public LinkedList() 
         {
-            if (nodeToAddLast.next is null && nodeToAddLast.data is not null)
-            {
-                Last = nodeToAddLast;
-            }
-
-            return Last;
+            head = null;
+            tail = null;
+            count = 0;
         }
 
-        public Node<T> AddFirst(Node<T> nodeToAddFirst) 
+        public Node<T>? First => head;
+        public Node<T>? Last => tail;
+
+        public Node<T> AddLast(T value)
         {
-            node = nodeToAddFirst;
+            var lastNode = new Node<T>(value);
 
-            if(node.next is not null)
+            if (count == 0)
             {
-
-                First = node;
+                tail = lastNode;
+                head = lastNode;
+            }
+            else
+            {
+                tail.Next = lastNode;
+                tail = lastNode;
             }
 
-            return First;
+            return tail;
+        }
+
+        public Node<T> AddFirst(T value)
+        {
+            var newNode = new Node<T>(value);
+
+            // if count is zero that means the LinkedList is empty and I am trying to init the list
+            if (count == 0)
+            {
+                head = newNode;
+                tail = newNode;
+            }
+            else
+            {
+                newNode.Next = head; // new node will be set to the old one (current first)
+                head = newNode;
+            }
+            count++;
+
+            return head;
         }
     }
 }

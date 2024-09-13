@@ -8,7 +8,13 @@ namespace LinkedList
 {
     public class Node<T>
     {
-        public T data;
-        public Node<T>? next = null; // pointer
+        public T Data { get; set; }
+        public Node<T>? Next { get; set; }
+
+        public Node(T data, Node<T>? next = null)
+        {
+            Data = data;
+            Next = next;
+        }
     }
 }
