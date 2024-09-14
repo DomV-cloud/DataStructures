@@ -1,4 +1,7 @@
-﻿namespace LinkedList
+﻿using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
+
+namespace LinkedList
 {
     /// <summary>
     /// Keep on mind:
@@ -13,7 +16,9 @@
         private int count = 0;
         //private List<Node<T>> nodes = [];
 
-        public LinkedList() 
+        Stopwatch stopWatch;
+
+        public LinkedList()
         {
             head = null;
             tail = null;
@@ -32,11 +37,9 @@
                 tail = lastNode;
                 head = lastNode;
             }
-            else
-            {
-                tail.Next = lastNode;
-                tail = lastNode;
-            }
+
+            tail = lastNode;
+            count++;
 
             return tail;
         }
@@ -53,12 +56,60 @@
             }
             else
             {
-                newNode.Next = head; // new node will be set to the old one (current first)
+                newNode.Next = head; // new node will be set to the old first one (current first)
                 head = newNode;
             }
             count++;
 
             return head;
+        }
+
+        public void PrintList()
+        {
+            stopWatch = new Stopwatch();
+
+            for (int i = 0; i < count; i++)
+            {
+                stopWatch.Start();
+                var node = head.Next;
+
+                if (head.Next != null)
+                {
+                    Console.WriteLine($"Node in Linked list: {head.Data}");
+
+                    head = node;
+
+                    continue;
+                }
+                else
+                {
+                    Console.WriteLine($"Node in Linked list: {head.Data}");
+
+                    var elapsedMs = stopWatch.Elapsed.TotalMilliseconds;
+                    Console.WriteLine($"Execution time of method {nameof(PrintList)} is: {elapsedMs}");
+                    stopWatch.Stop();
+
+                    break;
+                }
+
+            }
+        }
+
+        public void FasterPrint()
+        {
+            stopWatch = new Stopwatch();
+
+            var current = head;
+            while (current != null)
+            {
+                stopWatch.Start();
+                Console.WriteLine($"Node in Linked list: {current.Data}");
+                current = current.Next;
+            }
+
+            stopWatch.Stop();
+            var elapsedMs = stopWatch.Elapsed.TotalMilliseconds;
+            Console.WriteLine($"Execution time of method {nameof(FasterPrint)} is: {elapsedMs}");
         }
     }
 }
